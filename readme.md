@@ -46,3 +46,5 @@
             {"status":1,"msg":"成功"
                     ,"exception":"1","timestamp":"2019-02-17 10:18:55"}
             ```
+    - 检测用户名是否存在：
+    参数：String userName;//用户名

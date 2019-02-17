@@ -12,6 +12,7 @@ import com.drc.mybatis.mapper.UserMapper;
 
 public interface UserService extends UserMapper {
 
-    Boolean isExist(User user);
+    Boolean isUserExist(User user);
+    Boolean isUserNameExist(User user);
 
 }

@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isExist(User user) {
+    public Boolean isUserExist(User user) {
         HashSet<User> hashSet=new HashSet<User>();
         hashSet.addAll(userMapper.selectAll());
         if(hashSet.contains(user))
@@ -61,6 +61,19 @@ public class UserServiceImpl implements UserService {
 //                return true;
 //        }
 //        return false;
+    }
+
+    @Override
+    public Boolean isUserNameExist(User user) {
+        List<User> gets= userMapper.selectAll();
+        if(gets.size()==0){
+            return false;
+        }
+        for (User usr:gets ) {
+            if(user.getUsername().equals(usr.getUsername()))
+                return true;
+        }
+        return false;
     }
 
     @Override
