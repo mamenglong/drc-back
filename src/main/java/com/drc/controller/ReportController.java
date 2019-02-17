@@ -16,14 +16,21 @@ import com.drc.mybatis.service.ReportService;
 import com.drc.utils.DateUtil;
 import com.drc.utils.FileUtil;
 import com.drc.utils.LogUtil;
+import com.google.gson.GsonBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ReportController {
@@ -32,6 +39,8 @@ public class ReportController {
     private ReportService reportService;
     @Autowired
     private ReportImgService reportImgService;
+    @Autowired
+    private HttpServletRequest request;
     @PostMapping("/reportInsert1")
     @Deprecated
     public Responsed insert1(ReportDTO reportDTO){
@@ -54,7 +63,12 @@ public class ReportController {
         return responsed;
     }
     @PostMapping("/reportInsert")
-    public Responsed insert(@RequestParam("multipartFile") MultipartFile[] multipartFiles, ReportDTO reportDTO){
+    public Responsed insert(
+            @RequestParam("multipartFile") MultipartFile[] multipartFiles,
+            @RequestParam("json_data") String jsonData
+    ){
+        ReportDTO reportDTO = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss").create().fromJson(jsonData,ReportDTO.class);
         Responsed responsed=new Responsed();
         Report report=new Report();
         report.setOpname(reportDTO.getOpName());
