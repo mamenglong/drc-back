@@ -29,7 +29,7 @@ public class UserController {
         user.setUsername(userDTO.getUserName());
         user.setPassword(userDTO.getPassWord());
         user.setUniquecode(userDTO.getUniqueCode());
-       if (userService.isExist(user)){
+       if (userService.isUserExist(user)){
           responsed.setStatus(Responsed.Success)
                   .setMsg("允许登陆！")
                   .setException("无")
@@ -67,4 +67,22 @@ public class UserController {
         return responsed;
     }
 
+    @PostMapping("/isUsernameExist")
+    public Responsed isUsernameExist(String userName){
+        User user=new User();
+        user.setUsername(userName);
+        Responsed responsed=new Responsed();
+        if(!userService.isUserNameExist(user)){
+            responsed.setStatus(Responsed.Success)
+                    .setMsg("用户不存在可以注册！")
+                    .setException("检测成功！")
+                    .setTimestamp(DateUtil.getNow(null));
+        }else {
+            responsed.setStatus(Responsed.Fail)
+                    .setMsg("用户已存在不可以注册！")
+                    .setException("请更换用户名！")
+                    .setTimestamp(DateUtil.getNow(null));
+        }
+        return responsed;
+    }
 }
