@@ -17,7 +17,7 @@
             %L:：输出代码中的行号。
             %M：输出产生日志信息的方法名。-->
             <!--"%highlight{%d{HH:mm:ss.SSS} %-5level %logger{36}.%M() @%L - %msg%n}{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"-->
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %l:-> %msg%xEx%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level  %msg%xEx%n"/>
             <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36}.%M @%L %l:-> %msg%xEx%n"/>-->
         </Console>
 

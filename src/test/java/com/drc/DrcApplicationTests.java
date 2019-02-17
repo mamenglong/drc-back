@@ -1,5 +1,6 @@
 package com.drc;
 
+import com.drc.utils.LogUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ public class DrcApplicationTests {
 
     @Test
     public void contextLoads() {
+        LogUtil.info("aaaaaa");
         LoggerFactory.getLogger(this.getClass()).info("sss");
     }
 
