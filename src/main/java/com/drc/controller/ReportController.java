@@ -19,22 +19,20 @@ import com.drc.utils.LogUtil;
 import com.google.gson.GsonBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ReportController {
-    private final static String filePath ="/images" ;
+    @Value("${web.upload-path}")
+    private String filePath;
     @Autowired
     private ReportService reportService;
     @Autowired
@@ -73,15 +71,16 @@ public class ReportController {
         Report report=new Report();
         report.setOpname(reportDTO.getOpName());
         report.setDate(reportDTO.getDate());
-        report.setId(reportService.insert(report));
+        reportService.insert(report);
         if (report.getId()>0){//一部分保存成功,继续上传图片
-            if (multipartFiles != null && multipartFiles.length >0) {
-                for (int i = 0; i < multipartFiles.length; i++) {
+            if (multipartFiles != null && 0 <multipartFiles.length ) {
+                int i ;
+                for (i= 0; i < multipartFiles.length; i++) {
                     String root_fileName = multipartFiles[i].getOriginalFilename();
                     String contentType = multipartFiles[i].getContentType();
                     LogUtil.info("上传图片:name={},type={}:" + root_fileName + "   : " + contentType);
                     //获取路径
-                    LogUtil.info("图片保存路径={}" + filePath);
+                    LogUtil.info("图片保存相对路径" + filePath);
                     String file_name = null;
                     try {
                         file_name = FileUtil.saveImg(multipartFiles[i], filePath);
@@ -90,7 +89,9 @@ public class ReportController {
                         if (!file_name.isEmpty()) {
                             reportimg.setReportid(report.getId());
                             reportimg.setPath(filePath + File.separator + file_name);
+                            if(i<reportDTO.getMeasurementValue().size()){
                             reportimg.setMeasurementvalue(reportDTO.getMeasurementValue().get(i));
+                            }
                             if (reportImgService.insert(reportimg) > 0) {
                                 responsed.setStatus(Responsed.Success)
                                         .setMsg("数据插入成功！")
@@ -112,6 +113,13 @@ public class ReportController {
                                 .setTimestamp(DateUtil.getNow(null));
                         return responsed;//出错返回
                     }
+                }
+                //图片少测量值多时执行
+                for(;i<reportDTO.getMeasurementValue().size();i++) {
+                    Reportimg reportimg = new Reportimg();
+                    reportimg.setReportid(report.getId());
+                    reportimg.setMeasurementvalue(reportDTO.getMeasurementValue().get(i));
+                    reportImgService.insert(reportimg);
                 }
             }else if(reportDTO.getMeasurementValue().size()!=0){
                 //无图只有数据情况

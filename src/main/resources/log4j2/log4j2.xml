@@ -3,9 +3,11 @@
 <configuration status="off">
     <!-- 文件路径 -->
     <properties>
+        <Property name="APP_NAME">DrcLogs</Property>
+        <!-- ./logs 指向应用目录下classes/logs目录-->
+        <!-- logs 指向tomcat安装目录下的bin目录：tomcat/bin/logs目录-->
         <!--设置日志在硬盘上输出的目录${log4j:configParentLocation}使用此查找将日志文件放在相对于log4j配置文件的目录中-->
-        <property name="Log_Home">${web:rootDir}/logs</property>
-        <property name="date" >${%d{MM-dd-yyyy}}</property>
+        <property name="Log_Home">logs/${APP_NAME}</property>
     </properties>
     
     <!--先定义所有的appender-->

@@ -1,7 +1,11 @@
 server:
-  port: 9090
-
+  port: 9009
+web:
+  upload-path: ../webapps/drc-1.0/upload/images/
+  temp-path: c:/DRCTemp/
 spring:
+  resources:
+    static-locations: classpath:/resources/,classpath:/static/,file:${web.upload-path}
   datasource:
     name: test
     url: jdbc:mysql://127.0.0.1:3306/drc?serverTimezone=GMT%2B8
@@ -41,3 +45,4 @@ pagehelper:
   #日志配置
 logging:
   config: classpath:log4j2/log4j2.xml
+  file: ../logs/drclogs/log.log

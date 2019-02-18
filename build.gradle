@@ -5,7 +5,11 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
-
+apply plugin: 'war'
+war{
+    baseName ="drc-1.0"    //war名称
+    archiveName baseName+'.war'
+}
 group = 'com'
 version = '1.0'
 sourceCompatibility = '1.8'

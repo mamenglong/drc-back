@@ -26,8 +26,8 @@ import java.util.List;
 public class ReportDTO {
     Date date;//日期
     String opName;//操作员
-    List<String> photoPaths = new ArrayList<>();
-    List<String> measurementValue = new ArrayList<>();//测量值
+   final List<String> photoPaths = new ArrayList<>();
+   final List<String> measurementValue = new ArrayList<>();//测量值
 
     public String toJson(){
         return JSON.toJSONString(this);

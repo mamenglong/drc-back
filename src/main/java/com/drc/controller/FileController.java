@@ -15,6 +15,7 @@ import com.drc.utils.DateUtil;
 import com.drc.utils.FileUtil;
 import com.drc.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,8 @@ import java.io.IOException;
 
 @RestController
 public class FileController {
-    private final static String filePath ="/images" ;
+    @Value("${web.upload-path}")
+    private String filePath;
     @Autowired
     private ReportImgService reportImgService;
 
